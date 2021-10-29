@@ -10,8 +10,8 @@ X_train = x_train.reshape(x_train.shape[0], -1).astype(np.float32)[y_train ==5]
 X_valid = x_test.reshape(x_test.shape[0], -1).astype(np.float32)[y_test ==5]
 n_dims = X_train.shape[1]
 n_batch = 256
-n_hidden = 30
-n_layers = 2
+n_hidden = 100
+n_layers = 5
 # parameters; TODO: should make these class member variables
 N_HIDDEN = n_hidden
 N_DIMS = n_dims
@@ -257,6 +257,17 @@ quantile_regressor.predict(
      np.ones((10, n_dims)), # alpha
     ]
 )
+quantile_regressor.compile(optimizer=keras.optimizers.Adam(1e-3))
+
+n_hack_size = X_train.shape[0] - (X_train.shape[0] % n_batch)
 
 checkpoint_filepath = './checkpoints/checkpoint'
 quantile_regressor.load_weights(checkpoint_filepath)
+model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_filepath,
+                save_weights_only=True,
+                    monitor='loss',
+                        mode='max',
+                            save_best_only=False)
+quantile_regressor.fit(X_train[:n_hack_size], np.zeros([n_hack_size,1]), epochs=220, batch_size=n_batch, callbacks=[model_checkpoint_callback])
+
