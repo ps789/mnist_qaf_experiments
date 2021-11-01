@@ -9,13 +9,13 @@ num_classes = 10
 input_shape = (28, 28, 1)
 n_residual_blocks = 5
 # The data, split between train and test sets
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x = x_train.reshape(x_train.shape[0], -1).astype(np.float32)[y_train ==5]
-x_valid = x_test.reshape(x_test.shape[0], -1).astype(np.float32)[y_test ==5]
-y = y_train[y_train==5]
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+x = x_train[y_train ==5]
+x_valid = x_test[y_test ==5]
+y =y_train[y_train==5]
 y_valid = y_test[y_test==5]
 # Concatenate all of the images together
-data = np.concatenate((x, y), axis=0)
+data = np.concatenate((x, x_valid), axis=0)
 # Round all pixel values less than 33% of the max 256 value to 0
 # anything above this value gets rounded up to 1 so that all values are either
 # 0 or 1
@@ -101,7 +101,6 @@ pixel_cnn.compile(optimizer=adam, loss="binary_crossentropy")
 pixel_cnn.summary()
 
 checkpoint_filepath = './checkpoints_pixelcnn/checkpoint'
-quantile_regressor.load_weights(checkpoint_filepath)
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
                 save_weights_only=True,
