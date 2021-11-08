@@ -8,6 +8,8 @@ from keras.datasets import mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 X_train = x_train.reshape(x_train.shape[0], -1).astype(np.float32)[y_train ==5]
 X_valid = x_test.reshape(x_test.shape[0], -1).astype(np.float32)[y_test ==5]
+X_train = X_train/255
+X_valid = X_valid/255
 n_dims = X_train.shape[1]
 n_batch = 256
 n_hidden = 100
@@ -250,7 +252,7 @@ class MAFFlow3(keras.Model):
       raise ValueError()
 
     return y_pred
-quantile_regressor = MAFFlow3('quantile')
+quantile_regressor = MAFFlow3('gaussian')
 quantile_regressor.predict(
     [
      np.ones((10, n_dims)), # y

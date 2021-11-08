@@ -19,7 +19,7 @@ data = np.concatenate((x, x_valid), axis=0)
 # Round all pixel values less than 33% of the max 256 value to 0
 # anything above this value gets rounded up to 1 so that all values are either
 # 0 or 1
-data = np.where(data < (0.33 * 256), 0, 1)
+#data = np.where(data < (0.33 * 256), 0, 1)
 data = data.astype(np.float32)
 
 
@@ -108,5 +108,5 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
                         mode='max',
                             save_best_only=False)
 pixel_cnn.fit(
-    x=data, y=data, batch_size=128, epochs=50, validation_split=0.1, verbose=2, callbacks=[model_checkpoint_callback]
+    x=data, y=data, batch_size=128, epochs=300, validation_split=0.1, verbose=2, callbacks=[model_checkpoint_callback]
 )

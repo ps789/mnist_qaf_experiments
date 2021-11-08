@@ -250,7 +250,7 @@ class MAFFlow3(keras.Model):
       raise ValueError()
 
     return y_pred
-quantile_regressor = MAFFlow3('quantile')
+quantile_regressor = MAFFlow3('gaussian')
 quantile_regressor.predict(
     [
      np.ones((10, n_dims)), # y
