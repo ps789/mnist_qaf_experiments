@@ -8,6 +8,8 @@ from keras.datasets import mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 X_train = x_train.reshape(x_train.shape[0], -1).astype(np.float32)[y_train ==5]
 X_valid = x_test.reshape(x_test.shape[0], -1).astype(np.float32)[y_test ==5]
+X_train = X_train/255
+X_valid = X_valid/255
 n_dims = X_train.shape[1]
 n_batch = 256
 n_hidden = 100
@@ -257,7 +259,7 @@ quantile_regressor.predict(
      np.ones((10, n_dims)), # alpha
     ]
 )
-
+quantile_regressor.summary()
 checkpoint_filepath = './checkpoints/checkpoint'
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=checkpoint_filepath,

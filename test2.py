@@ -9,6 +9,8 @@ from keras.datasets import mnist
 X_train = x_train.reshape(x_train.shape[0], -1).astype(np.float32)[y_train ==5]
 X_valid = x_test.reshape(x_test.shape[0], -1).astype(np.float32)[y_test ==5]
 n_dims = X_train.shape[1]
+X_train = X_train/255
+X_valid = X_valid/255
 n_batch = 256
 n_hidden = 100
 n_layers = 5
@@ -270,4 +272,3 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
                         mode='max',
                             save_best_only=False)
 quantile_regressor.fit(X_train[:n_hack_size], np.zeros([n_hack_size,1]), epochs=220, batch_size=n_batch, callbacks=[model_checkpoint_callback])
-
