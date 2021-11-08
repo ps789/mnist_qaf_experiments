@@ -259,7 +259,7 @@ quantile_regressor.predict(
      np.ones((10, n_dims)), # alpha
     ]
 )
-
+quantile_regressor.summary()
 checkpoint_filepath = './checkpoints/checkpoint'
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=checkpoint_filepath,
