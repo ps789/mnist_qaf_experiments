@@ -105,9 +105,7 @@ pixel_conv3 = PixelConvLayer(
         activation="relu",
         padding="valid",
     )
-conv2d = keras.layers.Conv2D(
-    filters=2, kernel_size=1, strides=1, activation="sigmoid", padding="valid"
-)
+conv2d = keras.layers.Dense(2, "dense")
 x = input
 x = pixel_conv1(x)
 for i in range(n_residual_blocks):
@@ -132,9 +130,8 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
                 save_weights_only=True)
 epochs = 400
-epochs = 400
 for epoch in range(epochs):
-    print("\nStart of epoch %d" % (epoch,))
+    print("\nStart of epoch %d" % (epoch,), flush=True))
 
     # Iterate over the batches of the dataset.
     for step, (x_batch_train, y_batch_train) in enumerate(train_dataset):
@@ -171,7 +168,7 @@ for epoch in range(epochs):
                 "Training loss (for one batch) at step %d: %.4f"
                 % (step, float(loss))
             )
-            print("Seen so far: %s samples" % ((step + 1) * 64))
+            print("Seen so far: %s samples" % ((step + 1) * 64), flush=True)
     pixel_cnn.save_weights(checkpoint_filepath.format(epoch=epoch))
 batch = 1
 pixels = np.zeros(shape=(batch,) + (pixel_cnn.input_shape)[1:])
